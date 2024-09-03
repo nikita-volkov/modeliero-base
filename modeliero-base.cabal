@@ -29,6 +29,7 @@ library
     NoMonomorphismRestriction
     Arrows
     BangPatterns
+    BlockArguments
     ConstraintKinds
     DataKinds
     DefaultSignatures
@@ -70,6 +71,7 @@ library
   exposed-modules:    ModelieroBase
   other-modules:
     ModelieroBase.Classes.Anonymizable
+    ModelieroBase.Classes.Literal
     ModelieroBase.Classes.Special
     ModelieroBase.Data.Hostname
     ModelieroBase.Data.IpV4
@@ -78,6 +80,7 @@ library
 
   build-depends:
     , aeson >=2 && <3
+    , attoparsec >=0.14 && <0.15
     , base >=4.11 && <5
     , containers >=0.5 && <0.8
     , hashable >=1 && <2
@@ -85,5 +88,7 @@ library
     , iri >=0.5.1 && <0.6
     , isomorphism-class >=0.1.0.12 && <0.2
     , profunctors >=5.6 && <6
+    , template-haskell >=2.17 && <3
     , text >=2 && <3
+    , text-builder >=0.6.7.2 && <0.7
     , unordered-containers >=0.2 && <0.3

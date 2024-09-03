@@ -1,6 +1,7 @@
 module ModelieroBase
   ( module ModelieroBase.Classes.Special,
     module ModelieroBase.Classes.Anonymizable,
+    module ModelieroBase.Classes.Literal,
     module ModelieroBase.Data.Hostname,
     module ModelieroBase.Data.IpV4,
     module ModelieroBase.Data.IpV6,
@@ -8,6 +9,7 @@ module ModelieroBase
 where
 
 import ModelieroBase.Classes.Anonymizable
+import ModelieroBase.Classes.Literal
 import ModelieroBase.Classes.Special
 import ModelieroBase.Data.Hostname
 import ModelieroBase.Data.IpV4
