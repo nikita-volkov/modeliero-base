@@ -7,7 +7,6 @@ module ModelieroBase.Classes.Literal where
 import Data.Attoparsec.Text qualified as Attoparsec
 import Language.Haskell.TH.Syntax qualified as Th
 import ModelieroBase.Prelude
-import Text.Builder qualified as TextBuilder
 
 -- | Value that has a textual representation.
 --
@@ -21,7 +20,7 @@ import Text.Builder qualified as TextBuilder
 -- @
 class Literal a where
   literalParser :: Attoparsec.Parser a
-  literalTextBuilder :: a -> TextBuilder.Builder
+  literalToText :: a -> Text
 
 -- | If a literal can also be converted to code, we can instantiate and
 -- validate it at compile time, thus letting us provide guarantees that a
@@ -57,9 +56,6 @@ literalSplice literal = Th.Code do
     Right literal -> return literal
     Left err -> fail $ to err
   Th.examineCode $ Th.liftTyped literal
-
-literalToText :: (Literal a) => a -> Text
-literalToText = TextBuilder.run . literalTextBuilder
 
 literalEitherFromText :: (Literal a) => Text -> Either Text a
 literalEitherFromText =

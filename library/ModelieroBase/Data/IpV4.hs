@@ -3,6 +3,7 @@ module ModelieroBase.Data.IpV4
   )
 where
 
+import ModelieroBase.Classes.Literal
 import ModelieroBase.Classes.Special
 import ModelieroBase.Prelude
 import Net.IPv4 qualified
@@ -20,11 +21,13 @@ instance IsomorphicTo IpV4 Net.IPv4.IPv4 where
 
 instance Special IpV4 where
   type GeneralizationOf IpV4 = Text
-  type SpecializationErrorOf IpV4 = ()
-  specialize =
-    maybe (Left ()) (Right . IpV4) . Net.IPv4.decode
-  generalize =
-    Net.IPv4.encode . (.base)
+  type SpecializationErrorOf IpV4 = Text
+  specialize = literalEitherFromText
+  generalize = literalToText
+
+instance Literal IpV4 where
+  literalParser = fmap IpV4 Net.IPv4.parser
+  literalToText = Net.IPv4.encode . (.base)
 
 instance IsString IpV4 where
   fromString string =

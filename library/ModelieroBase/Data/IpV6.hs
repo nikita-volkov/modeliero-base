@@ -3,6 +3,7 @@ module ModelieroBase.Data.IpV6
   )
 where
 
+import ModelieroBase.Classes.Literal
 import ModelieroBase.Classes.Special
 import ModelieroBase.Prelude
 import Net.IPv6 qualified
@@ -20,11 +21,13 @@ instance IsomorphicTo IpV6 Net.IPv6.IPv6 where
 
 instance Special IpV6 where
   type GeneralizationOf IpV6 = Text
-  type SpecializationErrorOf IpV6 = ()
-  specialize =
-    maybe (Left ()) (Right . IpV6) . Net.IPv6.decode
-  generalize =
-    Net.IPv6.encode . (.base)
+  type SpecializationErrorOf IpV6 = Text
+  specialize = literalEitherFromText
+  generalize = literalToText
+
+instance Literal IpV6 where
+  literalParser = fmap IpV6 Net.IPv6.parser
+  literalToText = Net.IPv6.encode . (.base)
 
 instance IsString IpV6 where
   fromString string =

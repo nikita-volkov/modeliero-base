@@ -92,5 +92,4 @@ library
     , profunctors >=5.6 && <6
     , template-haskell >=2.17 && <3
     , text >=2 && <3
-    , text-builder >=0.6.7.2 && <0.7
     , unordered-containers >=0.2 && <0.3
