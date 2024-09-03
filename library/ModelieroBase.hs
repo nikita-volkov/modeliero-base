@@ -1,14 +1,11 @@
 module ModelieroBase
-  ( module ModelieroBase.Classes,
-    module ModelieroBase.Data.Hostname,
-    module ModelieroBase.Data.IpV4,
-    module ModelieroBase.Data.IpV6,
-    module ModelieroBase.Data.Iri,
+  ( -- * Type classes and their utils
+    module ModelieroBase.Classes,
+
+    -- * Data types
+    module ModelieroBase.Data,
   )
 where
 
 import ModelieroBase.Classes
-import ModelieroBase.Data.Hostname
-import ModelieroBase.Data.IpV4
-import ModelieroBase.Data.IpV6
-import ModelieroBase.Data.Iri
+import ModelieroBase.Data
