@@ -7,9 +7,7 @@ import ModelieroBase.Classes
 import ModelieroBase.Prelude
 import Net.IPv4 qualified
 
-newtype IpV4 = IpV4
-  { base :: Net.IPv4.IPv4
-  }
+newtype IpV4 = IpV4 Net.IPv4.IPv4
   deriving newtype (ToJSON, FromJSON)
 
 instance IsomorphicTo Net.IPv4.IPv4 IpV4 where
@@ -25,18 +23,14 @@ instance Special IpV4 where
   generalize = literalToText
 
 instance Literal IpV4 where
-  literalParser = fmap IpV4 Net.IPv4.parser
-  literalToText = Net.IPv4.encode . (.base)
+  literalParser = coerce Net.IPv4.parser
+  literalToText = coerce Net.IPv4.encode
 
 instance IsString IpV4 where
-  fromString string =
-    string
-      & Net.IPv4.decodeString
-      & fmap IpV4
-      & fromMaybe (error errorMessage)
-    where
-      errorMessage =
-        "Invalid IP: " <> show string
+  fromString = literalFromString
 
 instance Show IpV4 where
-  show = show . generalize
+  showsPrec = literalShowsPrec
+
+instance Read IpV4 where
+  readPrec = literalReadPrec

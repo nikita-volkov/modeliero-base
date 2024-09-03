@@ -7,6 +7,7 @@ module ModelieroBase.Classes.Literal where
 import Data.Attoparsec.Text qualified as Attoparsec
 import Language.Haskell.TH.Syntax qualified as Th
 import ModelieroBase.Prelude
+import Text.ParserCombinators.ReadPrec qualified as ReadPrec
 
 -- | Value that has a textual representation.
 --
@@ -66,3 +67,40 @@ literalMaybeFromText :: (Literal a) => Text -> Maybe a
 literalMaybeFromText =
   either (const Nothing) Just
     . literalEitherFromText
+
+-- |
+-- Helper for defining 'Read' instances via 'Literal', which expect a Haskell string literal (in double quotes).
+--
+-- This is useful in combination with the 'IsString' instance which lets you implicitly construct from string literals and a 'Show' instance, which prints it in double quotes.
+--
+-- TODO: Provide a set of properties, which test this as a law. This will allow the user to test his/her instances.
+literalReadPrec :: (Literal a) => ReadPrec.ReadPrec a
+literalReadPrec =
+  readPrec >>= either fail return . Attoparsec.parseOnly (literalParser <* Attoparsec.endOfInput)
+
+-- |
+-- Helper for defining 'Show' instances via 'Literal', producing a Haskell string literal (in double quotes).
+literalShowsPrec :: (Literal a) => Int -> a -> ShowS
+literalShowsPrec prec =
+  showsPrec prec . literalToText
+
+-- |
+-- Helper for defining the 'IsString' instances to be able to define the literal directly as string.
+--
+-- WARNING: This function fails with an error when the value is not parsable.
+literalFromString :: (Literal a) => String -> a
+literalFromString string =
+  string
+    & fromString
+    & literalEitherFromText
+    & either (error . renderErrorReport) id
+  where
+    renderErrorReport reason =
+      mconcat
+        [ "Failed to parse string literal.\n\
+          \  Reason: ",
+          toList reason,
+          "\n\
+          \  Input: ",
+          string
+        ]

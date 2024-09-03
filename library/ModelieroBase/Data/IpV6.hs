@@ -7,9 +7,7 @@ import ModelieroBase.Classes
 import ModelieroBase.Prelude
 import Net.IPv6 qualified
 
-newtype IpV6 = IpV6
-  { base :: Net.IPv6.IPv6
-  }
+newtype IpV6 = IpV6 Net.IPv6.IPv6
   deriving newtype (ToJSON, FromJSON)
 
 instance IsomorphicTo Net.IPv6.IPv6 IpV6 where
@@ -25,19 +23,14 @@ instance Special IpV6 where
   generalize = literalToText
 
 instance Literal IpV6 where
-  literalParser = fmap IpV6 Net.IPv6.parser
-  literalToText = Net.IPv6.encode . (.base)
+  literalParser = coerce Net.IPv6.parser
+  literalToText = coerce Net.IPv6.encode
 
 instance IsString IpV6 where
-  fromString string =
-    string
-      & fromString
-      & Net.IPv6.decode
-      & fmap IpV6
-      & fromMaybe (error errorMessage)
-    where
-      errorMessage =
-        "Invalid IP: " <> show string
+  fromString = literalFromString
 
 instance Show IpV6 where
-  show = show . generalize
+  showsPrec = literalShowsPrec
+
+instance Read IpV6 where
+  readPrec = literalReadPrec
