@@ -4,22 +4,23 @@ module ModelieroBase.Data.Hostname
 where
 
 import Iri.Data qualified
+import Iri.Parsing.Attoparsec.Text qualified
 import Iri.Parsing.Text qualified
 import Iri.Rendering.Text qualified
 import ModelieroBase.Classes
 import ModelieroBase.Prelude
 
-newtype Hostname = Hostname
-  { base :: Iri.Data.Host
-  }
+newtype Hostname = Hostname Iri.Data.Host
 
 instance Special Hostname where
   type GeneralizationOf Hostname = Text
   type SpecializationErrorOf Hostname = Text
-  specialize =
-    fmap Hostname . Iri.Parsing.Text.host
-  generalize =
-    Iri.Rendering.Text.host . (.base)
+  specialize = literalEitherFromText
+  generalize = literalToText
+
+instance Literal Hostname where
+  literalParser = coerce Iri.Parsing.Attoparsec.Text.host
+  literalToText = coerce Iri.Rendering.Text.host
 
 instance IsString Hostname where
   fromString input =
