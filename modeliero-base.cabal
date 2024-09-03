@@ -78,6 +78,7 @@ library
     ModelieroBase.Data.Hostname
     ModelieroBase.Data.IpV4
     ModelieroBase.Data.IpV6
+    ModelieroBase.Data.Iri
     ModelieroBase.Prelude
 
   build-depends:
