@@ -3,8 +3,7 @@ module ModelieroBase.Data.IpV4
   )
 where
 
-import ModelieroBase.Classes.Literal
-import ModelieroBase.Classes.Special
+import ModelieroBase.Classes
 import ModelieroBase.Prelude
 import Net.IPv4 qualified
 

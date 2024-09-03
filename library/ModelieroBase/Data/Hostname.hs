@@ -6,7 +6,7 @@ where
 import Iri.Data qualified
 import Iri.Parsing.Text qualified
 import Iri.Rendering.Text qualified
-import ModelieroBase.Classes.Special
+import ModelieroBase.Classes
 import ModelieroBase.Prelude
 
 newtype Hostname = Hostname

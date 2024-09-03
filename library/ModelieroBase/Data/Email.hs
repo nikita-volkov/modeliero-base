@@ -4,7 +4,7 @@ module ModelieroBase.Data.Email
 where
 
 import Data.Text.Encoding qualified
-import ModelieroBase.Classes.Special
+import ModelieroBase.Classes
 import ModelieroBase.Prelude
 import Text.Email.Parser qualified
 import Text.Email.Validate qualified
