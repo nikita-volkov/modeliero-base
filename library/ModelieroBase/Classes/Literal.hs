@@ -4,6 +4,8 @@
 -- Provides a reusable compile-time constructor, parsing and rendering APIs.
 module ModelieroBase.Classes.Literal where
 
+import Data.Aeson qualified as Aeson
+import Data.Aeson.Types qualified as Aeson
 import Data.Attoparsec.Text qualified as Attoparsec
 import Language.Haskell.TH.Syntax qualified as Th
 import ModelieroBase.Prelude
@@ -104,3 +106,14 @@ literalFromString string =
           \  Input: ",
           string
         ]
+
+-- |
+-- Helper for defining the 'ToJSON' instances via JSON String.
+literalToJson :: (Literal a) => a -> Aeson.Value
+literalToJson = Aeson.String . literalToText
+
+-- |
+-- Helper for defining the 'FromJSON' instances via JSON String.
+literalParseJson :: (Literal a) => Aeson.Value -> Aeson.Parser a
+literalParseJson json =
+  Aeson.parseJSON json >>= either fail return . Attoparsec.parseOnly (literalParser <* Attoparsec.endOfInput)

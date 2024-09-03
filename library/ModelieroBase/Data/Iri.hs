@@ -29,3 +29,9 @@ instance Show Iri where
 
 instance Read Iri where
   readPrec = literalReadPrec
+
+instance ToJSON Iri where
+  toJSON = literalToJson
+
+instance FromJSON Iri where
+  parseJSON = literalParseJson

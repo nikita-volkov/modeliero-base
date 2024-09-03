@@ -29,3 +29,9 @@ instance Show Hostname where
 
 instance Read Hostname where
   readPrec = literalReadPrec
+
+instance ToJSON Hostname where
+  toJSON = literalToJson
+
+instance FromJSON Hostname where
+  parseJSON = literalParseJson
