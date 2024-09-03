@@ -10,7 +10,10 @@ import Text.Email.Parser qualified
 import Text.Email.Validate qualified
 
 newtype Email = Email
-  { base :: Text.Email.Parser.EmailAddress
+  { base ::
+      -- TODO: Find a better alternative.
+      -- This one does not provide a textual parser, which is why we don't have the Literal instance.
+      Text.Email.Parser.EmailAddress
   }
 
 instance IsomorphicTo Text.Email.Parser.EmailAddress Email where
