@@ -1,5 +1,6 @@
 module ModelieroBase.Classes.Anonymizable where
 
+import ModelieroBase.Classes.Anonymizable.Arbitrary qualified as Arbitrary
 import ModelieroBase.Prelude
 
 -- | Structure-preserving anonymization.
@@ -27,5 +28,19 @@ instance (Anonymizable a, Anonymizable b, Anonymizable c) => Anonymizable (a, b,
     (anonymize total a, anonymize total b, anonymize total c)
 
 instance Anonymizable Text where
-  anonymize =
-    bool id \text -> error "TODO" $ hash text
+  anonymize = bool id anonymizeViaHashableArbitrary
+
+-- |
+-- Hash the value into 64-bits,
+-- supply that hash as the seed for the value generator provided by the Arbitrary instance.
+anonymizeViaHashableArbitrary :: (Hashable a, Arbitrary a) => a -> a
+anonymizeViaHashableArbitrary =
+  Arbitrary.fromInt . hash
+
+-- |
+-- Hash the value into 64-bits,
+-- apply the provided modulo to reduce the range of the produced hashes,
+-- supply that hash as the seed for the value generator provided by the Arbitrary instance.
+anonymizeViaHashableArbitraryWithMod :: (Hashable a, Arbitrary a) => Int -> a -> a
+anonymizeViaHashableArbitraryWithMod x =
+  Arbitrary.fromInt . mod x . hash

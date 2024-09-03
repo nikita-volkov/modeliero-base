@@ -75,6 +75,7 @@ library
 
   other-modules:
     ModelieroBase.Classes.Anonymizable
+    ModelieroBase.Classes.Anonymizable.Arbitrary
     ModelieroBase.Classes.Literal
     ModelieroBase.Classes.Special
     ModelieroBase.Data.Email
@@ -95,6 +96,8 @@ library
     , iri >=0.5.1 && <0.6
     , isomorphism-class >=0.1.0.12 && <0.2
     , profunctors >=5.6 && <6
+    , QuickCheck >=2.14 && <3
+    , quickcheck-instances >=0.3.31 && <0.4
     , template-haskell >=2.17 && <3
     , text >=2 && <3
     , unordered-containers >=0.2 && <0.3
