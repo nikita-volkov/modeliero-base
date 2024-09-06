@@ -10,6 +10,9 @@ import ModelieroBase.Classes
 import ModelieroBase.Prelude
 
 newtype Hostname = Hostname Iri.Data.Host
+  deriving
+    (IsString, Show, Read, ToJSON, FromJSON)
+    via (AsLiteral Hostname)
 
 instance Special Hostname where
   type GeneralizationOf Hostname = Text
@@ -20,18 +23,3 @@ instance Special Hostname where
 instance Literal Hostname where
   literalParser = coerce Iri.Parsing.Attoparsec.Text.host
   literalToText = coerce Iri.Rendering.Text.host
-
-instance IsString Hostname where
-  fromString = literalFromString
-
-instance Show Hostname where
-  showsPrec = literalShowsPrec
-
-instance Read Hostname where
-  readPrec = literalReadPrec
-
-instance ToJSON Hostname where
-  toJSON = literalToJson
-
-instance FromJSON Hostname where
-  parseJSON = literalParseJson

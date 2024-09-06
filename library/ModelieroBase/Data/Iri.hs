@@ -10,6 +10,9 @@ import ModelieroBase.Classes
 import ModelieroBase.Prelude
 
 newtype Iri = Iri Iri.Data.Iri
+  deriving
+    (IsString, Show, Read, ToJSON, FromJSON)
+    via (AsLiteral Iri)
 
 instance Special Iri where
   type GeneralizationOf Iri = Text
@@ -20,18 +23,3 @@ instance Special Iri where
 instance Literal Iri where
   literalParser = coerce Iri.Parsing.Attoparsec.Text.iri
   literalToText = coerce Iri.Rendering.Text.iri
-
-instance IsString Iri where
-  fromString = literalFromString
-
-instance Show Iri where
-  showsPrec = literalShowsPrec
-
-instance Read Iri where
-  readPrec = literalReadPrec
-
-instance ToJSON Iri where
-  toJSON = literalToJson
-
-instance FromJSON Iri where
-  parseJSON = literalParseJson

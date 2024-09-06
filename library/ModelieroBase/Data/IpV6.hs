@@ -9,6 +9,9 @@ import Net.IPv6 qualified
 
 newtype IpV6 = IpV6 Net.IPv6.IPv6
   deriving newtype (ToJSON, FromJSON)
+  deriving
+    (IsString, Show, Read)
+    via (AsLiteral IpV6)
 
 instance IsomorphicTo Net.IPv6.IPv6 IpV6 where
   to = coerce
@@ -25,12 +28,3 @@ instance Special IpV6 where
 instance Literal IpV6 where
   literalParser = coerce Net.IPv6.parser
   literalToText = coerce Net.IPv6.encode
-
-instance IsString IpV6 where
-  fromString = literalFromString
-
-instance Show IpV6 where
-  showsPrec = literalShowsPrec
-
-instance Read IpV6 where
-  readPrec = literalReadPrec

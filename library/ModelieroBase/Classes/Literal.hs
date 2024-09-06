@@ -48,11 +48,6 @@ class Literal a where
 --
 -- > uuid :: Uuid
 -- > uuid = $$(literalSplice "123e4567-e89b-12d3-a456-426614174000")
---
--- > -- | Construct text not by converting from a string literal,
--- > -- but by packing a byte-array literal, which may be more efficient.
--- > text :: Text
--- > text = $$(literalSplice "Example text")
 literalSplice :: (Literal a, Th.Lift a) => String -> Th.Code Th.Q a
 literalSplice literal = Th.Code do
   literal <- case literalEitherFromText (fromString literal) of
@@ -117,3 +112,30 @@ literalToJson = Aeson.String . literalToText
 literalParseJson :: (Literal a) => Aeson.Value -> Aeson.Parser a
 literalParseJson json =
   Aeson.parseJSON json >>= either fail return . Attoparsec.parseOnly (literalParser <* Attoparsec.endOfInput)
+
+-- * Deriving Via
+
+-- |
+-- DerivingVia helper.
+--
+-- Lets you derive all standard instances by only defining the 'Literal' instance explicitly.
+newtype AsLiteral a = AsLiteral {base :: a}
+
+instance (Literal a) => Literal (AsLiteral a) where
+  literalParser = fmap AsLiteral literalParser
+  literalToText = literalToText . (.base)
+
+instance (Literal a) => IsString (AsLiteral a) where
+  fromString = literalFromString
+
+instance (Literal a) => Read (AsLiteral a) where
+  readPrec = literalReadPrec
+
+instance (Literal a) => Show (AsLiteral a) where
+  showsPrec = literalShowsPrec
+
+instance (Literal a) => ToJSON (AsLiteral a) where
+  toJSON = literalToJson
+
+instance (Literal a) => FromJSON (AsLiteral a) where
+  parseJSON = literalParseJson
