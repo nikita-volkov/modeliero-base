@@ -3,33 +3,36 @@ module ModelieroBase.Data.Email
   )
 where
 
-import Data.Text.Encoding qualified
+import Data.Attoparsec.Text qualified as Attoparsec
 import ModelieroBase.Classes
+import ModelieroBase.Data.Email.Attoparsec qualified as AttoparsecHelpers
 import ModelieroBase.Prelude
-import Text.Email.Parser qualified
-import Text.Email.Validate qualified
+import Text.Builder qualified as TextBuilder
 
-newtype Email = Email
-  { base ::
-      -- TODO: Find a better alternative.
-      -- This one does not provide a textual parser, which is why we don't have the Literal instance.
-      Text.Email.Parser.EmailAddress
+data Email = Email
+  { local :: NonEmpty Text,
+    domain :: NonEmpty Text
   }
+  deriving
+    (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
+    via (AsLiteral Email)
 
-instance IsomorphicTo Text.Email.Parser.EmailAddress Email where
-  to = coerce
-
-instance IsomorphicTo Email Text.Email.Parser.EmailAddress where
-  to = coerce
-
-instance Special Email where
-  type GeneralizationOf Email = Text
-  type SpecializationErrorOf Email = Text
-  specialize =
-    bimap fromString Email
-      . Text.Email.Validate.validate
-      . Data.Text.Encoding.encodeUtf8
-  generalize =
-    Data.Text.Encoding.decodeUtf8Lenient
-      . Text.Email.Validate.toByteString
-      . (.base)
+instance Literal Email where
+  literalParser = do
+    local <- AttoparsecHelpers.local Attoparsec.<?> "local"
+    _ <- Attoparsec.char '@'
+    domain <- AttoparsecHelpers.domain Attoparsec.<?> "domain"
+    pure Email {..}
+  literalToText Email {..} =
+    mconcat
+      [ case local of
+          localHead :| localTail ->
+            TextBuilder.text localHead
+              <> foldMap (mappend "." . TextBuilder.text) localTail,
+        "@",
+        case domain of
+          domainHead :| domainTail ->
+            TextBuilder.text domainHead
+              <> foldMap (mappend "." . TextBuilder.text) domainTail
+      ]
+      & TextBuilder.run
