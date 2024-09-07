@@ -13,6 +13,7 @@ data Email = Email
   { local :: NonEmpty Text,
     domain :: NonEmpty Text
   }
+  deriving (Eq, Ord)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
     via (AsLiteral Email)
@@ -36,3 +37,9 @@ instance Literal Email where
               <> foldMap (mappend "." . TextBuilder.text) domainTail
       ]
       & TextBuilder.run
+
+instance Hashable Email where
+  hashWithSalt salt Email {..} =
+    salt
+      & flip hashWithSalt local
+      & flip hashWithSalt domain

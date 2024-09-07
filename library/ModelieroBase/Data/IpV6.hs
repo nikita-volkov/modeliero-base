@@ -8,7 +8,7 @@ import ModelieroBase.Prelude
 import Net.IPv6 qualified
 
 newtype IpV6 = IpV6 Net.IPv6.IPv6
-  deriving newtype (ToJSON, FromJSON)
+  deriving newtype (Eq, Ord, Hashable, ToJSON, FromJSON)
   deriving
     (IsString, Show, Read, ToJSONKey, FromJSONKey)
     via (AsLiteral IpV6)

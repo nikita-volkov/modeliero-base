@@ -10,6 +10,7 @@ import ModelieroBase.Classes
 import ModelieroBase.Prelude
 
 newtype Iri = Iri Iri.Data.Iri
+  deriving newtype (Eq, Ord, Hashable)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
     via (AsLiteral Iri)

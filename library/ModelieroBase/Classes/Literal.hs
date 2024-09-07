@@ -155,3 +155,12 @@ instance (Literal a) => FromJSONKey (AsLiteral a) where
       & either
         (Aeson.parseFail . toList)
         return
+
+instance (Literal a) => Hashable (AsLiteral a) where
+  hashWithSalt salt = hashWithSalt salt . literalToText
+
+instance (Literal a) => Eq (AsLiteral a) where
+  (==) = on (==) literalToText
+
+instance (Literal a) => Ord (AsLiteral a) where
+  compare = on compare literalToText
