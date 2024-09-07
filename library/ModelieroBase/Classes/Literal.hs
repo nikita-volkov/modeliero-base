@@ -70,6 +70,8 @@ literalMaybeFromText =
 -- |
 -- Prism from 'Text' to its structured view via 'Literal'.
 --
+-- Useful for editing textual values.
+--
 -- Provides a way to access and modify a textual value by focusing on its structured view when it\'s possible.
 --
 -- It\'s Van Laarhoven style, so it\'s compatible with all the optics libraries.
@@ -77,18 +79,7 @@ literalizedPrism ::
   (Choice p, Applicative f, Literal literal) =>
   p literal (f literal) ->
   p Text (f Text)
-literalizedPrism =
-  dimap
-    ( \text ->
-        text
-          & literalEitherFromText
-          & first (const text)
-    )
-    ( either
-        pure
-        (fmap literalToText)
-    )
-    . right'
+literalizedPrism = prism' literalToText literalMaybeFromText
 
 -- |
 -- Helper for defining 'Read' instances via 'Literal', which expect a Haskell string literal (in double quotes).

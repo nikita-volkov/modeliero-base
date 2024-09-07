@@ -1,5 +1,7 @@
 module ModelieroBase.Prelude
   ( module Exports,
+    prism,
+    prism',
   )
 where
 
@@ -79,3 +81,19 @@ import Text.Printf as Exports (hPrintf, printf)
 import Text.Read as Exports (Read (..), readEither, readMaybe)
 import Unsafe.Coerce as Exports
 import Prelude as Exports hiding (all, and, any, concat, concatMap, elem, foldl, foldl1, foldr, foldr1, id, mapM, mapM_, maximum, minimum, notElem, or, product, sequence, sequence_, sum, (.))
+
+-- |
+-- Structure-non-preserving Van Laarhoven prism.
+prism ::
+  (b -> t) ->
+  (s -> Either t a) ->
+  (forall p f. (Choice p, Applicative f) => p a (f b) -> p s (f t))
+prism bt seta = dimap seta (either pure (fmap bt)) . right'
+
+-- |
+-- Structure-preserving Van Laarhoven prism.
+prism' ::
+  (a -> s) ->
+  (s -> Maybe a) ->
+  (forall p f. (Choice p, Applicative f) => p a (f a) -> p s (f s))
+prism' bs sma = prism bs (\s -> maybe (Left s) Right (sma s))
