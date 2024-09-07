@@ -82,12 +82,14 @@ library
     ModelieroBase.Classes.Literal
     ModelieroBase.Classes.Special
     ModelieroBase.Data.Email
-    ModelieroBase.Data.Email.Attoparsec
-    ModelieroBase.Data.Email.Attoparsec.CharPredicates
+    ModelieroBase.Data.Email.Gens
+    ModelieroBase.Data.Email.Parsers
+    ModelieroBase.Data.Email.Parsers.CharPredicates
     ModelieroBase.Data.Hostname
     ModelieroBase.Data.IpV4
     ModelieroBase.Data.IpV6
     ModelieroBase.Data.Iri
+    ModelieroBase.ExtrasFor.QuickCheck.FreqGen
     ModelieroBase.Prelude
 
   build-depends:

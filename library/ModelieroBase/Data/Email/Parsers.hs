@@ -1,7 +1,7 @@
-module ModelieroBase.Data.Email.Attoparsec where
+module ModelieroBase.Data.Email.Parsers where
 
 import Data.Attoparsec.Text
-import ModelieroBase.Data.Email.Attoparsec.CharPredicates qualified as CharPredicates
+import ModelieroBase.Data.Email.Parsers.CharPredicates qualified as CharPredicates
 import ModelieroBase.Prelude
 
 sepBy1Ne :: (Alternative f) => f a -> f s -> f (NonEmpty a)

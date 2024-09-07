@@ -5,7 +5,8 @@ where
 
 import Data.Attoparsec.Text qualified as Attoparsec
 import ModelieroBase.Classes
-import ModelieroBase.Data.Email.Attoparsec qualified as AttoparsecHelpers
+import ModelieroBase.Data.Email.Gens qualified as Gens
+import ModelieroBase.Data.Email.Parsers qualified as Parsers
 import ModelieroBase.Prelude
 import Text.Builder qualified as TextBuilder
 
@@ -20,9 +21,9 @@ data Email = Email
 
 instance Literal Email where
   literalParser = do
-    local <- AttoparsecHelpers.local Attoparsec.<?> "local"
+    local <- Parsers.local Attoparsec.<?> "local"
     _ <- Attoparsec.char '@'
-    domain <- AttoparsecHelpers.domain Attoparsec.<?> "domain"
+    domain <- Parsers.domain Attoparsec.<?> "domain"
     pure Email {..}
   literalToText Email {..} =
     mconcat
@@ -43,3 +44,7 @@ instance Hashable Email where
     salt
       & flip hashWithSalt local
       & flip hashWithSalt domain
+
+instance Arbitrary Email where
+  arbitrary =
+    Email <$> Gens.local <*> Gens.domain

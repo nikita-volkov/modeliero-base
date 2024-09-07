@@ -1,4 +1,4 @@
-module ModelieroBase.Data.Email.Attoparsec.CharPredicates where
+module ModelieroBase.Data.Email.Parsers.CharPredicates where
 
 import ModelieroBase.Prelude
 
