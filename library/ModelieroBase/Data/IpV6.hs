@@ -38,3 +38,14 @@ instance Arbitrary IpV6 where
               <*> arbitrary
               <*> arbitrary
           )
+
+instance Anonymizable IpV6 where
+  anonymize = bool id go
+    where
+      go (IpV6 (Net.IPv6.toWord32s -> (a, b, c, d))) =
+        Net.IPv6.fromWord32s
+          (anonymize True a)
+          (anonymize True b)
+          (anonymize True c)
+          (anonymize True d)
+          & IpV6

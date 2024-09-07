@@ -68,6 +68,7 @@ library
     TypeFamilies
     TypeOperators
     UnboxedTuples
+    ViewPatterns
 
   default-language:   Haskell2010
   exposed-modules:

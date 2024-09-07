@@ -38,3 +38,14 @@ instance Arbitrary IpV4 where
               <*> arbitrary
               <*> arbitrary
           )
+
+instance Anonymizable IpV4 where
+  anonymize = bool id go
+    where
+      go (IpV4 (Net.IPv4.toOctets -> (a, b, c, d))) =
+        Net.IPv4.fromOctets
+          (anonymize True a)
+          (anonymize True b)
+          (anonymize True c)
+          (anonymize True d)
+          & IpV4

@@ -40,6 +40,36 @@ instance Anonymizable Text where
 instance Anonymizable Bool where
   anonymize = bool id (const True)
 
+instance Anonymizable Int8 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Int8 (div maxBound 2)))
+
+instance Anonymizable Int16 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Int16 (div maxBound 2)))
+
+instance Anonymizable Int32 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Int32 (div maxBound 2)))
+
+instance Anonymizable Int64 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Int64 (div maxBound 2)))
+
+instance Anonymizable Int where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Int (div maxBound 2)))
+
+instance Anonymizable Word8 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word8 (div maxBound 2)))
+
+instance Anonymizable Word16 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word16 (div maxBound 2)))
+
+instance Anonymizable Word32 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word32 (div maxBound 2)))
+
+instance Anonymizable Word64 where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word64 (div maxBound 2)))
+
+instance Anonymizable Word where
+  anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word (div maxBound 2)))
+
 -- |
 -- Anonymize text controlling the cardinality (maximum amount of possible variations).
 anonymizeText :: Int -> Text -> Text
@@ -64,8 +94,8 @@ anonymizeViaHashableAndArbitrary =
 
 -- |
 -- Hash the value into 64-bits,
--- apply the provided modulo to reduce the range of the produced hashes,
+-- apply the provided modulo to reduce the cardinality of the produced hashes,
 -- supply that hash as the seed for the value generator provided by the Arbitrary instance.
-anonymizeViaHashableArbitraryWithMod :: (Hashable a, Arbitrary a) => Int -> a -> a
-anonymizeViaHashableArbitraryWithMod x =
+anonymizeViaHashableAndArbitraryWithMod :: (Hashable a, Arbitrary a) => Int -> a -> a
+anonymizeViaHashableAndArbitraryWithMod x =
   Arbitrary.fromInt . mod x . hash
