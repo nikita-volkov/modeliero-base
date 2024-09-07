@@ -10,7 +10,7 @@ import Net.IPv6 qualified
 newtype IpV6 = IpV6 Net.IPv6.IPv6
   deriving newtype (ToJSON, FromJSON)
   deriving
-    (IsString, Show, Read)
+    (IsString, Show, Read, ToJSONKey, FromJSONKey)
     via (AsLiteral IpV6)
 
 instance IsomorphicTo Net.IPv6.IPv6 IpV6 where
@@ -28,3 +28,13 @@ instance Special IpV6 where
 instance Literal IpV6 where
   literalParser = coerce Net.IPv6.parser
   literalToText = coerce Net.IPv6.encode
+
+instance Arbitrary IpV6 where
+  arbitrary =
+    IpV6
+      <$> ( Net.IPv6.fromWord32s
+              <$> arbitrary
+              <*> arbitrary
+              <*> arbitrary
+              <*> arbitrary
+          )

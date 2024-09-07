@@ -8,7 +8,7 @@ import ModelieroBase.Prelude
 import Net.IPv4 qualified
 
 newtype IpV4 = IpV4 Net.IPv4.IPv4
-  deriving newtype (ToJSON, FromJSON)
+  deriving newtype (ToJSON, FromJSON, ToJSONKey, FromJSONKey)
   deriving
     (IsString, Show, Read)
     via (AsLiteral IpV4)
@@ -28,3 +28,13 @@ instance Special IpV4 where
 instance Literal IpV4 where
   literalParser = coerce Net.IPv4.parser
   literalToText = coerce Net.IPv4.encode
+
+instance Arbitrary IpV4 where
+  arbitrary =
+    IpV4
+      <$> ( Net.IPv4.fromOctets
+              <$> arbitrary
+              <*> arbitrary
+              <*> arbitrary
+              <*> arbitrary
+          )

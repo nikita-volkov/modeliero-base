@@ -11,7 +11,7 @@ import ModelieroBase.Prelude
 
 newtype Hostname = Hostname Iri.Data.Host
   deriving
-    (IsString, Show, Read, ToJSON, FromJSON)
+    (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
     via (AsLiteral Hostname)
 
 instance Special Hostname where

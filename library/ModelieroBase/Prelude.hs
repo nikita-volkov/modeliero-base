@@ -11,7 +11,7 @@ import Control.Monad as Exports hiding (forM, forM_, mapM, mapM_, msum, sequence
 import Control.Monad.Fix as Exports hiding (fix)
 import Control.Monad.IO.Class as Exports
 import Control.Monad.ST as Exports
-import Data.Aeson as Exports (FromJSON (..), ToJSON (..))
+import Data.Aeson as Exports (FromJSON (..), FromJSONKey (..), ToJSON (..), ToJSONKey (..))
 import Data.Bifunctor as Exports
 import Data.Bits as Exports
 import Data.Bool as Exports

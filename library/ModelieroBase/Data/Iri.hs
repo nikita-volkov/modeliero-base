@@ -11,7 +11,7 @@ import ModelieroBase.Prelude
 
 newtype Iri = Iri Iri.Data.Iri
   deriving
-    (IsString, Show, Read, ToJSON, FromJSON)
+    (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
     via (AsLiteral Iri)
 
 instance Special Iri where

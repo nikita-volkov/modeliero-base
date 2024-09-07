@@ -5,6 +5,8 @@
 module ModelieroBase.Classes.Literal where
 
 import Data.Aeson qualified as Aeson
+import Data.Aeson.Encoding qualified as Aeson.Encoding
+import Data.Aeson.Key qualified as Aeson.Key
 import Data.Aeson.Types qualified as Aeson
 import Data.Attoparsec.Text qualified as Attoparsec
 import Language.Haskell.TH.Syntax qualified as Th
@@ -139,3 +141,17 @@ instance (Literal a) => ToJSON (AsLiteral a) where
 
 instance (Literal a) => FromJSON (AsLiteral a) where
   parseJSON = literalParseJson
+
+instance (Literal a) => ToJSONKey (AsLiteral a) where
+  toJSONKey = Aeson.ToJSONKeyText toKey toEncoding
+    where
+      toKey = Aeson.Key.fromText . literalToText
+      toEncoding = Aeson.Encoding.text . literalToText
+
+instance (Literal a) => FromJSONKey (AsLiteral a) where
+  fromJSONKey = Aeson.FromJSONKeyTextParser \text ->
+    text
+      & literalEitherFromText
+      & either
+        (Aeson.parseFail . toList)
+        return
