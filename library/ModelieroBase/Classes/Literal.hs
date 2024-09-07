@@ -13,7 +13,7 @@ import Language.Haskell.TH.Syntax qualified as Th
 import ModelieroBase.Prelude
 import Text.ParserCombinators.ReadPrec qualified as ReadPrec
 
--- | Value that has a textual representation.
+-- | Value that has a canonical textual representation.
 --
 -- This class is lawful: rendering the value and then parsing it
 -- should succeed and produce the original value.

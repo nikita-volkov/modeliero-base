@@ -15,7 +15,7 @@ data Email = Email
   { local :: NonEmpty Text,
     domain :: NonEmpty Text
   }
-  deriving (Eq, Ord)
+  deriving stock (Eq, Ord)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
     via (AsLiteral Email)
