@@ -41,15 +41,15 @@ instance Anonymizable Bool where
   anonymize = bool id (const True)
 
 -- |
--- Anonymize text controlling the maximum amount of possible variations.
+-- Anonymize text controlling the cardinality (maximum amount of possible variations).
 anonymizeText :: Int -> Text -> Text
-anonymizeText space text =
+anonymizeText cardinality text =
   text
     & Data.Text.Encoding.encodeUtf8
     & Crypto.Hash.SHA256.hash
     & flip Ptr.ByteString.peek Ptr.Peek.leWord64
     & fromMaybe 0
-    & flip mod (fromIntegral space)
+    & flip mod (fromIntegral cardinality)
     & Ptr.Poking.leWord64
     & Ptr.ByteString.poking
     & Data.ByteString.Base64.URL.encodeBase64Unpadded
