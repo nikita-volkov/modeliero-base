@@ -2,7 +2,15 @@
 -- Common interface for custom data-types which can be represented with a custom textual literal.
 --
 -- Provides a reusable compile-time constructor, parsing and rendering APIs.
-module ModelieroBase.Classes.Literal where
+module ModelieroBase.Classes.Literal
+  ( Literal (..),
+    literalSplice,
+    literalEitherFromText,
+    literalMaybeFromText,
+    literalizedPrism,
+    AsLiteral (..),
+  )
+where
 
 import Data.Aeson qualified as Aeson
 import Data.Aeson.Encoding qualified as Aeson.Encoding
