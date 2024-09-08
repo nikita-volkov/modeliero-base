@@ -7,6 +7,7 @@ import Iri.Data qualified
 import Iri.Parsing.Attoparsec.Text qualified
 import Iri.Rendering.Text qualified
 import ModelieroBase.Classes
+import ModelieroBase.ExtrasFor.Iri.Gens qualified as IriGens
 import ModelieroBase.Prelude
 
 newtype Hostname = Hostname Iri.Data.Host
@@ -24,3 +25,6 @@ instance Special Hostname where
 instance Literal Hostname where
   literalParser = coerce Iri.Parsing.Attoparsec.Text.host
   literalToText = coerce Iri.Rendering.Text.host
+
+instance Arbitrary Hostname where
+  arbitrary = coerce IriGens.host

@@ -4,6 +4,7 @@ module ModelieroBase.Data.IpV4
 where
 
 import ModelieroBase.Classes
+import ModelieroBase.ExtrasFor.Ip.Gens qualified as IpGens
 import ModelieroBase.Prelude
 import Net.IPv4 qualified
 
@@ -30,14 +31,7 @@ instance Literal IpV4 where
   literalToText = coerce Net.IPv4.encode
 
 instance Arbitrary IpV4 where
-  arbitrary =
-    IpV4
-      <$> ( Net.IPv4.fromOctets
-              <$> arbitrary
-              <*> arbitrary
-              <*> arbitrary
-              <*> arbitrary
-          )
+  arbitrary = coerce IpGens.ipV4
 
 instance Anonymizable IpV4 where
   anonymize = bool id go

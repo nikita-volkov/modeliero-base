@@ -4,6 +4,7 @@ module ModelieroBase.Data.IpV6
 where
 
 import ModelieroBase.Classes
+import ModelieroBase.ExtrasFor.Ip.Gens qualified as IpGens
 import ModelieroBase.Prelude
 import Net.IPv6 qualified
 
@@ -30,14 +31,7 @@ instance Literal IpV6 where
   literalToText = coerce Net.IPv6.encode
 
 instance Arbitrary IpV6 where
-  arbitrary =
-    IpV6
-      <$> ( Net.IPv6.fromWord32s
-              <$> arbitrary
-              <*> arbitrary
-              <*> arbitrary
-              <*> arbitrary
-          )
+  arbitrary = coerce IpGens.ipV6
 
 instance Anonymizable IpV6 where
   anonymize = bool id go

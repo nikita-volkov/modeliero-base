@@ -91,6 +91,8 @@ library
     ModelieroBase.Data.IpV6
     ModelieroBase.Data.Iri
     ModelieroBase.Data.Iso8601DateTime
+    ModelieroBase.ExtrasFor.Ip.Gens
+    ModelieroBase.ExtrasFor.Iri.Gens
     ModelieroBase.ExtrasFor.QuickCheck.FreqGen
     ModelieroBase.Prelude
 
