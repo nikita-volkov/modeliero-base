@@ -6,6 +6,8 @@ import Data.ByteString.Base64.URL qualified
 import Data.Text.Encoding qualified
 import ModelieroBase.Classes.Anonymizable.Arbitrary qualified as Arbitrary
 import ModelieroBase.Prelude
+import Net.IPv4 qualified
+import Net.IPv6 qualified
 import Ptr.ByteString qualified
 import Ptr.Peek qualified
 import Ptr.Poking qualified
@@ -69,6 +71,26 @@ instance Anonymizable Word64 where
 
 instance Anonymizable Word where
   anonymize = bool id (anonymizeViaHashableAndArbitraryWithMod (fromIntegral @Word (div maxBound 2)))
+
+instance Anonymizable Net.IPv4.IPv4 where
+  anonymize = bool id go
+    where
+      go (Net.IPv4.toOctets -> (a, b, c, d)) =
+        Net.IPv4.fromOctets
+          (anonymize True a)
+          (anonymize True b)
+          (anonymize True c)
+          (anonymize True d)
+
+instance Anonymizable Net.IPv6.IPv6 where
+  anonymize = bool id go
+    where
+      go (Net.IPv6.toWord32s -> (a, b, c, d)) =
+        Net.IPv6.fromWord32s
+          (anonymize True a)
+          (anonymize True b)
+          (anonymize True c)
+          (anonymize True d)
 
 -- |
 -- Anonymize text controlling the cardinality (maximum amount of possible variations).
