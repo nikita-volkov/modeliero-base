@@ -3,7 +3,9 @@ module ModelieroBase.Classes.Anonymizable where
 import Crypto.Hash.SHA256 qualified
 import Data.Base64.Types qualified
 import Data.ByteString.Base64.URL qualified
+import Data.Text qualified as Text
 import Data.Text.Encoding qualified
+import Iri.Data qualified
 import ModelieroBase.Classes.Anonymizable.Arbitrary qualified as Arbitrary
 import ModelieroBase.Prelude
 import Net.IPv4 qualified
@@ -91,6 +93,42 @@ instance Anonymizable Net.IPv6.IPv6 where
           (anonymize True b)
           (anonymize True c)
           (anonymize True d)
+
+instance Anonymizable Iri.Data.DomainLabel where
+  anonymize = bool id go
+    where
+      go (Iri.Data.DomainLabel text) =
+        text
+          & anonymizeText maxBound
+          & Iri.Data.DomainLabel
+
+instance Anonymizable Iri.Data.RegName where
+  anonymize = bool id go
+    where
+      go (Iri.Data.RegName labels) =
+        labels
+          & toList
+          & fmap (\(Iri.Data.DomainLabel text) -> text)
+          & Text.intercalate "."
+          & anonymizeText maxBound
+          & Iri.Data.DomainLabel
+          & pure
+          & Iri.Data.RegName
+
+instance Anonymizable Iri.Data.Host where
+  anonymize force = \case
+    Iri.Data.NamedHost regName ->
+      regName
+        & anonymize force
+        & Iri.Data.NamedHost
+    Iri.Data.IpV4Host ipV4 ->
+      ipV4
+        & anonymize force
+        & Iri.Data.IpV4Host
+    Iri.Data.IpV6Host ipV6 ->
+      ipV6
+        & anonymize force
+        & Iri.Data.IpV6Host
 
 -- |
 -- Anonymize text controlling the cardinality (maximum amount of possible variations).

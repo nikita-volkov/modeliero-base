@@ -30,17 +30,7 @@ instance Arbitrary Hostname where
   arbitrary = coerce IriGens.host
 
 instance Anonymizable Hostname where
-  anonymize force (Hostname iriHost) = case iriHost of
-    Iri.Data.NamedHost iriRegName ->
-      iriRegName
-        & error "TODO"
-    Iri.Data.IpV4Host ipV4 ->
-      ipV4
-        & anonymize force
-        & Iri.Data.IpV4Host
-        & Hostname
-    Iri.Data.IpV6Host ipV6 ->
-      ipV6
-        & anonymize force
-        & Iri.Data.IpV6Host
-        & Hostname
+  anonymize force (Hostname iriHost) =
+    iriHost
+      & anonymize force
+      & Hostname
