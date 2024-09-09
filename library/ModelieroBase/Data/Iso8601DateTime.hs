@@ -55,3 +55,6 @@ instance Hashable Iso8601DateTime where
         & flip hashWithSalt timeZoneMinutes
         & flip hashWithSalt summerOnly
         & flip hashWithSalt timeZoneName
+
+instance Anonymizable Iso8601DateTime where
+  anonymize = bool id anonymizeViaHashableAndArbitrary
