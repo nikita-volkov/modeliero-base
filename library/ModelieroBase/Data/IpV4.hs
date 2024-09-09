@@ -12,7 +12,7 @@ newtype IpV4 = IpV4 Net.IPv4.IPv4
   deriving newtype (Eq, Ord, Hashable, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
   deriving
     (IsString, Show, Read)
-    via (AsLiteral IpV4)
+    via (ViaLiteral IpV4)
 
 instance IsomorphicTo Net.IPv4.IPv4 IpV4 where
   to = coerce

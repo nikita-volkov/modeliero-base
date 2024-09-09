@@ -13,7 +13,7 @@ newtype Iso8601DateTime = Iso8601DateTime ZonedTime
   deriving newtype (Arbitrary)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
-    via (AsLiteral Iso8601DateTime)
+    via (ViaLiteral Iso8601DateTime)
 
 instance Literal Iso8601DateTime where
   literalParser = coerce Data.Attoparsec.Time.zonedTime

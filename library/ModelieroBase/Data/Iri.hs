@@ -13,7 +13,7 @@ newtype Iri = Iri Iri.Data.Iri
   deriving newtype (Eq, Ord, Hashable)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
-    via (AsLiteral Iri)
+    via (ViaLiteral Iri)
 
 instance Special Iri where
   type GeneralizationOf Iri = Text

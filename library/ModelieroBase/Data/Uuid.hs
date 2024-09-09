@@ -13,7 +13,7 @@ newtype Uuid = Uuid Uuid.UUID
     (Eq, Ord, Hashable, Arbitrary)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
-    via (AsLiteral Uuid)
+    via (ViaLiteral Uuid)
 
 instance Literal Uuid where
   literalParser = coerce do

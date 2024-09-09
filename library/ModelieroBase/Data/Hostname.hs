@@ -14,7 +14,7 @@ newtype Hostname = Hostname Iri.Data.Host
   deriving newtype (Eq, Ord, Hashable)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
-    via (AsLiteral Hostname)
+    via (ViaLiteral Hostname)
 
 instance Special Hostname where
   type GeneralizationOf Hostname = Text

@@ -18,7 +18,7 @@ data Email = Email
   deriving stock (Eq, Ord)
   deriving
     (IsString, Show, Read, ToJSON, FromJSON, ToJSONKey, FromJSONKey)
-    via (AsLiteral Email)
+    via (ViaLiteral Email)
 
 instance Literal Email where
   literalParser = do

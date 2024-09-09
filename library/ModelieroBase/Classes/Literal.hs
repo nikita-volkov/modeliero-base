@@ -8,7 +8,7 @@ module ModelieroBase.Classes.Literal
     literalEitherFromText,
     literalMaybeFromText,
     literalizedPrism,
-    AsLiteral (..),
+    ViaLiteral (..),
   )
 where
 
@@ -143,34 +143,34 @@ literalParseJson json =
 -- DerivingVia helper.
 --
 -- Lets you derive all standard instances by only defining the 'Literal' instance explicitly.
-newtype AsLiteral a = AsLiteral {base :: a}
+newtype ViaLiteral a = AsLiteral {base :: a}
 
-instance (Literal a) => Literal (AsLiteral a) where
+instance (Literal a) => Literal (ViaLiteral a) where
   literalParser = fmap AsLiteral literalParser
   literalToText = literalToText . (.base)
 
-instance (Literal a) => IsString (AsLiteral a) where
+instance (Literal a) => IsString (ViaLiteral a) where
   fromString = literalFromString
 
-instance (Literal a) => Read (AsLiteral a) where
+instance (Literal a) => Read (ViaLiteral a) where
   readPrec = literalReadPrec
 
-instance (Literal a) => Show (AsLiteral a) where
+instance (Literal a) => Show (ViaLiteral a) where
   showsPrec = literalShowsPrec
 
-instance (Literal a) => ToJSON (AsLiteral a) where
+instance (Literal a) => ToJSON (ViaLiteral a) where
   toJSON = literalToJson
 
-instance (Literal a) => FromJSON (AsLiteral a) where
+instance (Literal a) => FromJSON (ViaLiteral a) where
   parseJSON = literalParseJson
 
-instance (Literal a) => ToJSONKey (AsLiteral a) where
+instance (Literal a) => ToJSONKey (ViaLiteral a) where
   toJSONKey = Aeson.ToJSONKeyText toKey toEncoding
     where
       toKey = Aeson.Key.fromText . literalToText
       toEncoding = Aeson.Encoding.text . literalToText
 
-instance (Literal a) => FromJSONKey (AsLiteral a) where
+instance (Literal a) => FromJSONKey (ViaLiteral a) where
   fromJSONKey = Aeson.FromJSONKeyTextParser \text ->
     text
       & literalEitherFromText
@@ -178,11 +178,11 @@ instance (Literal a) => FromJSONKey (AsLiteral a) where
         (Aeson.parseFail . toList)
         return
 
-instance (Literal a) => Hashable (AsLiteral a) where
+instance (Literal a) => Hashable (ViaLiteral a) where
   hashWithSalt salt = hashWithSalt salt . literalToText
 
-instance (Literal a) => Eq (AsLiteral a) where
+instance (Literal a) => Eq (ViaLiteral a) where
   (==) = on (==) literalToText
 
-instance (Literal a) => Ord (AsLiteral a) where
+instance (Literal a) => Ord (ViaLiteral a) where
   compare = on compare literalToText

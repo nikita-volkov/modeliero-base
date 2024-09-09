@@ -12,7 +12,7 @@ newtype IpV6 = IpV6 Net.IPv6.IPv6
   deriving newtype (Eq, Ord, Hashable, ToJSON, FromJSON)
   deriving
     (IsString, Show, Read, ToJSONKey, FromJSONKey)
-    via (AsLiteral IpV6)
+    via (ViaLiteral IpV6)
 
 instance IsomorphicTo Net.IPv6.IPv6 IpV6 where
   to = coerce
