@@ -18,8 +18,7 @@ local = do
           if shouldGo
             then genTail (pred sizeAvail) (localElement : list)
             else pure (localElement : list)
-        else
-          pure (reverse list)
+        else pure (reverse list)
 
     genLocalElement sizeAvail = do
       head <- genHeadChar
@@ -56,8 +55,7 @@ domain = do
           if shouldGo
             then genTail (pred sizeAvail) (item : list)
             else pure (item : list)
-        else
-          pure (reverse list)
+        else pure (reverse list)
 
     genItem sizeAvail = do
       head <- genHeadChar
