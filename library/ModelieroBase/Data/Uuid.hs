@@ -28,3 +28,9 @@ instance Anonymizable Uuid where
     base
       & anonymizeViaHashableAndArbitrary
       & Uuid
+
+instance IsomorphicTo Uuid.UUID Uuid where
+  to = coerce
+
+instance IsomorphicTo Uuid Uuid.UUID where
+  to = coerce
