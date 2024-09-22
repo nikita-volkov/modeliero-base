@@ -28,7 +28,7 @@ class Anonymizable a where
     a ->
     a
 
-instance (Anonymizable a) => Anonymizable (Maybe a) where
+instance (Anonymizable a, Functor f) => Anonymizable (f a) where
   anonymize total = fmap (anonymize total)
 
 instance (Anonymizable a, Anonymizable b) => Anonymizable (Either a b) where
