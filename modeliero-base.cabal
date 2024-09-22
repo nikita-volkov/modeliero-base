@@ -97,6 +97,7 @@ library
     ModelieroBase.ExtrasFor.QuickCheck.FreqGen
     ModelieroBase.Prelude
 
+  build-tool-depends: autoexporter:autoexporter >=2 && <2.1
   build-depends:
     , aeson >=2 && <3
     , attoparsec >=0.14 && <0.15
