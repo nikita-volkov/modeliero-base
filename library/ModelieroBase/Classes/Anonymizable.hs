@@ -5,6 +5,7 @@ import Data.Base64.Types qualified
 import Data.ByteString.Base64.URL qualified
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified
+import Data.Vector qualified
 import Iri.Data qualified
 import ModelieroBase.Classes.Anonymizable.Arbitrary qualified as Arbitrary
 import ModelieroBase.Prelude
@@ -32,6 +33,9 @@ instance (Anonymizable a) => Anonymizable [a] where
   anonymize total = fmap (anonymize total)
 
 instance (Anonymizable a) => Anonymizable (Maybe a) where
+  anonymize total = fmap (anonymize total)
+
+instance (Anonymizable a) => Anonymizable (Data.Vector.Vector a) where
   anonymize total = fmap (anonymize total)
 
 instance (Anonymizable a, Anonymizable b) => Anonymizable (Either a b) where
