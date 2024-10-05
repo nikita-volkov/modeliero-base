@@ -5,9 +5,11 @@ where
 
 import ModelieroBase.Classes
 import ModelieroBase.Prelude
+import Test.QuickCheck.Arbitrary qualified as QuickCheck.Arbitrary
+import Test.QuickCheck.Gen qualified as QuickCheck.Gen
 
 newtype ViaEnum a = ViaEnum a
-  deriving newtype (Eq)
+  deriving newtype (Eq, Enum, Bounded)
 
 instance (Enum a, Eq a) => Hashable (ViaEnum a) where
   hashWithSalt salt (ViaEnum x) =
@@ -32,3 +34,7 @@ instance (Enum a, Bounded a) => Anonymizable (ViaEnum a) where
               & fromEnum
           newValue = toEnum newIndex
        in ViaEnum newValue
+
+instance (Enum a, Bounded a) => QuickCheck.Arbitrary.Arbitrary (ViaEnum a) where
+  arbitrary =
+    QuickCheck.Gen.chooseEnum (minBound, maxBound)
