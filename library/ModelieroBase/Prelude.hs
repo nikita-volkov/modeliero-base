@@ -46,6 +46,7 @@ import Data.Profunctor as Exports
 import Data.Proxy as Exports
 import Data.Ratio as Exports
 import Data.STRef as Exports
+import Data.Scientific as Exports (Scientific)
 import Data.Semigroup as Exports
 import Data.Sequence as Exports (Seq)
 import Data.Set as Exports (Set)

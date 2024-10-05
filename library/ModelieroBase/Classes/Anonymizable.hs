@@ -51,6 +51,15 @@ instance (Anonymizable a, Anonymizable b, Anonymizable c) => Anonymizable (a, b,
 instance Anonymizable Text where
   anonymize = bool id (anonymizeText maxBound)
 
+instance Anonymizable Float where
+  anonymize = bool id anonymizeViaHashableAndArbitrary
+
+instance Anonymizable Double where
+  anonymize = bool id anonymizeViaHashableAndArbitrary
+
+instance Anonymizable Scientific where
+  anonymize = bool id anonymizeViaHashableAndArbitrary
+
 instance Anonymizable Bool where
   anonymize = bool id (const True)
 
