@@ -97,6 +97,7 @@ library
     ModelieroBase.ExtrasFor.Iri.Gens
     ModelieroBase.ExtrasFor.QuickCheck.FreqGen
     ModelieroBase.Prelude
+    ModelieroBase.Proxies.ViaEnum
     ModelieroBase.Proxies.ViaLiteral
 
   build-tool-depends: autoexporter:autoexporter >=2 && <2.1
