@@ -9,6 +9,7 @@ import Iri.Rendering.Text qualified
 import ModelieroBase.Classes
 import ModelieroBase.ExtrasFor.Iri.Gens qualified as IriGens
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 
 newtype Hostname = Hostname Iri.Data.Host
   deriving newtype (Eq, Ord, Hashable)

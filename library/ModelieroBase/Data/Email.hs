@@ -9,6 +9,7 @@ import ModelieroBase.Classes
 import ModelieroBase.Data.Email.Gens qualified as Gens
 import ModelieroBase.Data.Email.Parsers qualified as Parsers
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 import Text.Builder qualified as TextBuilder
 
 data Email = Email

@@ -75,6 +75,7 @@ library
     ModelieroBase
     ModelieroBase.Classes
     ModelieroBase.Data
+    ModelieroBase.Proxies
 
   other-modules:
     ModelieroBase.Classes.Anonymizable
@@ -96,6 +97,7 @@ library
     ModelieroBase.ExtrasFor.Iri.Gens
     ModelieroBase.ExtrasFor.QuickCheck.FreqGen
     ModelieroBase.Prelude
+    ModelieroBase.Proxies.ViaLiteral
 
   build-tool-depends: autoexporter:autoexporter >=2 && <2.1
   build-depends:

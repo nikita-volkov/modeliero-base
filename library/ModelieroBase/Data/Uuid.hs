@@ -7,6 +7,7 @@ import Data.Attoparsec.Text qualified as Attoparsec
 import Data.UUID qualified as Uuid
 import ModelieroBase.Classes
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 
 newtype Uuid = Uuid Uuid.UUID
   deriving newtype

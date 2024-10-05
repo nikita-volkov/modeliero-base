@@ -7,6 +7,7 @@ import Data.Attoparsec.Time qualified
 import Data.Time.ToText qualified
 import ModelieroBase.Classes
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 
 -- | Canonical representation of ISO-8601 date-time values.
 newtype Iso8601DateTime = Iso8601DateTime ZonedTime

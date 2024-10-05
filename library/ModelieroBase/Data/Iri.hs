@@ -8,6 +8,7 @@ import Iri.Parsing.Attoparsec.Text qualified
 import Iri.Rendering.Text qualified
 import ModelieroBase.Classes
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 
 newtype Iri = Iri Iri.Data.Iri
   deriving newtype (Eq, Ord, Hashable)

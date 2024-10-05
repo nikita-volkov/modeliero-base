@@ -6,6 +6,7 @@ where
 import ModelieroBase.Classes
 import ModelieroBase.ExtrasFor.Ip.Gens qualified as IpGens
 import ModelieroBase.Prelude
+import ModelieroBase.Proxies
 import Net.IPv4 qualified
 
 newtype IpV4 = IpV4 Net.IPv4.IPv4
