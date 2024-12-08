@@ -38,3 +38,10 @@ specializedPrism =
         (fmap generalize)
     )
     . right'
+
+-- |
+-- When there is no error possible, we're dealing with an isomorphism, hence the conversion becomes total.
+specializeTotally :: (Special a, SpecializationErrorOf a ~ Void) => GeneralizationOf a -> a
+specializeTotally general = case specialize general of
+  Right r -> r
+  Left l -> absurd l
