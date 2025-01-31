@@ -91,6 +91,7 @@ library
     ModelieroBase.Data.IpV4
     ModelieroBase.Data.IpV6
     ModelieroBase.Data.Iri
+    ModelieroBase.Data.Iso8601Date
     ModelieroBase.Data.Iso8601DateTime
     ModelieroBase.Data.Uuid
     ModelieroBase.ExtrasFor.Ip.Gens
